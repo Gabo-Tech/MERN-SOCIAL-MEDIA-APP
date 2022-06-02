@@ -20,31 +20,18 @@ const UserController = {
   },
   async login(req, res) {
     try {
-      const userP = await User.findOne({
-        email: req.body.email,
-      });
-      console.log(req.body.password);
-      console.log(userP.password);
-      bcrypt.compare(req.body.password, userP.password, function(err, res) {
-        if (err){
-          // handle error
-        }
-        if (res){
-          // Send JWT
-        } else {
-          // response is OutgoingMessage object that server response http request
-          res.status(400).send({ message: "Passwords don't match."})
-        }
-      });
       const user = await User.findOne({
         email: req.body.email,
-        password:req.body.password
       });
-      const token = jwt.sign({ _id: user._id }, jwt_secret); //creo el token
-      if (user.tokens.length > 4) user.tokens.shift();
-      user.tokens.push(token);
-      await user.save();
-      res.send({ message: "Hi there " + user.name + "!", token });
+      const isMatch = await bcrypt.compare(req.body.password, user.password);
+      console.log(isMatch);
+      console.log(JSON.stringify(user));
+      // const token = jwt.sign({ _id: user._id }, jwt_secret); //creo el token
+      // if (user.tokens.length > 4) user.tokens.shift();
+      // user.tokens.push(token);
+      // await user.save();
+
+      res.send({ message: "Hi there " + user.name + "!", /*token*/ });
     } catch (error) {
       console.error(error);
     }
