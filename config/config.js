@@ -4,10 +4,10 @@ const { MONGO_URI } = require("./keys");
 const dbConnection = async () => {
   try {
     await mongoose.connect(MONGO_URI);
-    console.log("Base de datos conectada con éxito");
+    console.log("Database connected succesfully.");
   } catch (error) {
     console.error(error);
-    throw new Error("Error a la hora de conectarse a la base de datos");
+    throw new Error("Unable to reach database...");
   }
 };
 
