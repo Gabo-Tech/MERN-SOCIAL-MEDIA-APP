@@ -7,7 +7,7 @@ ie: desktop -> projects folder
 `cd projects`
 `git clone https://github.com/kwokcheong/Express_CRUD.git`
 
-Open in VSC code
+Open in VSCode
 
 ## Installation
 
