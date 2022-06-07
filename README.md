@@ -5,7 +5,7 @@
 Create a folder to store projects
 ie: desktop -> projects folder
 `cd projects`
-`git clone https://github.com/kwokcheong/Express_CRUD.git`
+`git clone https://github.com/Gabo-Tech/MERN-SOCIAL-MEDIA-APP.git`
 
 Open in VSCode
 
