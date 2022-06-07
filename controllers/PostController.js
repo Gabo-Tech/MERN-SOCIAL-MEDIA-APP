@@ -1,7 +1,7 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
-const { jwt_secret } = require("../config/keys.js");
+const jwt_secret = process.env.JWT_SECRET;
 
 const PostController = {
   async create(req, res) {
