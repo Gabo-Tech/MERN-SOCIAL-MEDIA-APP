@@ -9,7 +9,7 @@ const authentication = async (req, res, next) => {
     const payload = jwt.verify(token, jwt_secret);
     const user = await User.findOne({ _id: payload._id, tokens: token });
     if (!user) {
-      return res.status(401).send({ message: "No estas autorizado" });
+      return res.status(401).send({ message: "You are not authorized" });
     }
     req.user = user;
     next();
@@ -17,7 +17,7 @@ const authentication = async (req, res, next) => {
     console.error(error);
     return res
       .status(500)
-      .send({ error, message: "Ha habido un problema con el token" });
+      .send({ error, message: "There's been an issue with the token" });
   }
 };
 const isAdmin = async (req, res, next) => {
@@ -34,12 +34,12 @@ const isAuthor = async(req, res, next) => {
     try {
         const comment = await Comment.findById(req.params._id);
         if (comment.userId.toString() !== req.user._id.toString()) { 
-            return res.status(403).send({ message: 'Este pedido no es tuyo' });
+            return res.status(403).send({ message: 'This order is not yours' });
         }
         next();
     } catch (error) {
         console.error(error)
-        return res.status(500).send({ error, message: 'Ha habido un problema al comprobar la autoría del pedido' })
+        return res.status(500).send({ error, message: "There's been a problem checking the order owner" })
     }
 }
 

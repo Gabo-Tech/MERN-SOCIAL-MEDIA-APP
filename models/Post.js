@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const PostSchema = new mongoose.Schema({
-    author: {
-        type: String,
-        unique: true,
-        required: [true, "Please indicate the user"],
-      },
     title: {
         type: String,
         required: [true, "Plases fill in the title"],
@@ -15,7 +10,9 @@ const PostSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please fill in the content"],
       },
+    comments: [{ type: ObjectId }],
     likes: [{ type: ObjectId }],
+    userId: String,
     image: Buffer
 }, { timestamps: true });
 

@@ -15,23 +15,23 @@ const UserController = {
         console.error(error);
         res.status(500).send({ message: "It's been an error creating the user."});
       }
+    } else {
+      res.status(400).send({ message: "Please fill in all the fields."});
     }
-    res.status(400).send({ message: "Please fill in all the fields."});
   },
   async login(req, res) {
     try {
       const user = await User.findOne({
-        email: req.body.email,
+        email: req.body.email
       });
       const isMatch = await bcrypt.compare(req.body.password, user.password);
-      console.log(isMatch);
-      console.log(JSON.stringify(user));
-      // const token = jwt.sign({ _id: user._id }, jwt_secret); //creo el token
-      // if (user.tokens.length > 4) user.tokens.shift();
-      // user.tokens.push(token);
-      // await user.save();
+      console.log(JSON.stringify(user.tokens));
+      const token = jwt.sign({ _id: user._id }, jwt_secret); //creo el token
+      if (user.tokens.length > 4) user.tokens.shift();
+      user.tokens.push(token);
+      await user.save();
 
-      res.send({ message: "Hi there " + user.name + "!", /*token*/ });
+      res.send({ message: "Hi there " + user.name + "!", token });
     } catch (error) {
       console.error(error);
     }
@@ -52,12 +52,8 @@ const UserController = {
   async getInfo(req, res) {
     try {
       const user = await User.findById(req.user._id)
-      .populate({
-        path: "comentIds",
-        populate: {
-          path: "postIds",
-        },
-      });
+      .populate("commentsIds")
+      .populate("liked")
 
       res.send(user);
     } catch (error) {

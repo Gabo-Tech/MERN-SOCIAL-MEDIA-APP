@@ -1,21 +1,27 @@
 const Post = require("../models/Post");
+const User = require("../models/User");
+const jwt = require("jsonwebtoken");
+const { jwt_secret } = require("../config/keys.js");
 
 const PostController = {
   async create(req, res) {
     try {
-      console.log(req.body.author);
-      if(req.body.author != "" && req.body.author != undefined && req.body.title != "" && req.body.title != undefined && req.body.content != "" && req.body.content != undefined && req.body != undefined && req.body != {}){
+      if(req.body.title != "" && req.body.title != undefined && req.body.content != "" && req.body.content != undefined && req.body != undefined && req.body != {} && req.headers.authorization != undefined && req.headers.authorization != {}){
+        const User = jwt.verify(req.headers.authorization, jwt_secret);
+        req.body["userId"] = User._id;
+        console.log(req.body);
         const post = await Post.create(req.body);
         res.status(201).send(post);
-        return;
+      } else {
+        console.error("Empty post error.");
+        res.status(400).send({ message: "You cannot create a post with empty fields." });
       }
-      console.error("Empty post error.");
-      res.status(400).send({ message: "You cannot create a post with empty fields." });
     } catch (error) {
       console.error(error);
+      //console.error(error._message+" // "+error.errors+" // "+error.errors);
       res
         .status(500)
-        .send({ message: "It's been an error creating the post." });
+        .send({ message: "It's been an error creating the post.", error });
     }
   },
 
@@ -32,7 +38,7 @@ const PostController = {
     try {
       const { page = 1, limit = 10 } = req.query;
       const posts = await Post.find()
-        .populate("reviews.userId")
+        .populate("comments")
         .limit(limit * 1)
         .skip((page - 1) * limit);
       res.send(posts);
@@ -57,8 +63,8 @@ const PostController = {
       if (req.params.name.length > 20) {
         return res.status(400).send("Search too long.");
       }
-      const name = new RegExp(req.params.name, "i");
-      const post = await Post.find({ name });
+      const title = new RegExp(req.params.name, "i");
+      const post = await Post.find({ title });
       res.send(post);
     } catch (error) {
       console.error(error);

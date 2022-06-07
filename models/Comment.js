@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const CommentSchema = new mongoose.Schema({
-    status: String,
+    comment: String,
     userId: {
       type: ObjectId,
       ref: "User",
     },
-    deliveryDate: Date,
+    commentDate: Date,
     postIds: [{ type: ObjectId, ref: "Post" }],
   },
   { timestamps: true }
