@@ -9,7 +9,6 @@ const PostController = {
       if(req.body.title != "" && req.body.title != undefined && req.body.content != "" && req.body.content != undefined && req.body != undefined && req.body != {} && req.headers.authorization != undefined && req.headers.authorization != {}){
         const User = jwt.verify(req.headers.authorization, jwt_secret);
         req.body["userId"] = User._id;
-        console.log(req.body);
         const post = await Post.create(req.body);
         res.status(201).send(post);
       } else {

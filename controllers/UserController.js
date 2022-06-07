@@ -11,14 +11,18 @@ const UserController = {
       req.body.password = await bcrypt.hash(req.body.password, saltRounds);
       try {
         const user = await User.create({ ...req.body, role: "user" });
-      // const emailToken = jwt.sign({email:req.body.email},jwt_secret,{expiresIn:'24h'})
-      // const url = 'http://localhost:8080/users/confirm/'+emailToken
-      // await transporter.sendMail({
-      //     to:req.body.email,
-      //     subject:"Confirmation",
-      //     html:`<h3>Bienvenido, estás a un paso de registrarte</h3>
-      //     <a href="${url}" style="">Click to confirm you signed up</a>`,
-      // })
+        console.log("1");
+        const emailToken = jwt.sign({email:req.body.email},jwt_secret,{expiresIn:'24h'});
+        console.log("2");
+        const url = 'http://localhost:1620/users/confirm/'+emailToken;
+        console.log("3");
+        await transporter.sendMail({
+             to:req.body.email,
+             subject:"Confirmation",
+             html:`<h3>Bienvenido, estás a un paso de registrarte</h3>
+             <a href="${url}" style="">Click to confirm you signed up</a>`,
+        });
+        console.log("4");
         res.status(201).send({ message: "User registered succesfully!", user });
       } catch (error) {
         console.error(error);
