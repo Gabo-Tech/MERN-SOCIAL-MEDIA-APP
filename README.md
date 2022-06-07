@@ -1,4 +1,4 @@
-# Simple CRUD Express + Typescript + MongoDB
+# Simple CRUD Express + MongoDB
 
 ## To run this locally on your computer...
 
