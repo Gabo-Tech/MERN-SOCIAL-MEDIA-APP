@@ -32,3 +32,7 @@ Run the command below and will create a 'build' folder
 ```bash
 npm run build 
 ```
+
+## To see the API documentation follow this link.
+
+[Follow Me]()
