@@ -25,6 +25,7 @@ const UserSchema = new mongoose.Schema(
       tokens: [],
       commentsIds: [{ type: ObjectId, ref: 'Comment' }],
       liked: [{ type: ObjectId, ref: 'Post' }],
+      confirmed: Boolean
     },
     { timestamps: true }
   );  

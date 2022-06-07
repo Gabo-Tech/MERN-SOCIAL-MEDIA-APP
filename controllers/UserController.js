@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const { jwt_secret } = require("../config/keys.js");
+const transporter = require("../config/nodemailer");
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
@@ -10,6 +11,14 @@ const UserController = {
       req.body.password = await bcrypt.hash(req.body.password, saltRounds);
       try {
         const user = await User.create({ ...req.body, role: "user" });
+      // const emailToken = jwt.sign({email:req.body.email},jwt_secret,{expiresIn:'24h'})
+      // const url = 'http://localhost:8080/users/confirm/'+emailToken
+      // await transporter.sendMail({
+      //     to:req.body.email,
+      //     subject:"Confirmation",
+      //     html:`<h3>Bienvenido, estás a un paso de registrarte</h3>
+      //     <a href="${url}" style="">Click to confirm you signed up</a>`,
+      // })
         res.status(201).send({ message: "User registered succesfully!", user });
       } catch (error) {
         console.error(error);
@@ -60,6 +69,19 @@ const UserController = {
       console.error(error);
     }
   },
+  async confirm(req, res) {
+    try {
+      await User.updateOne(
+        { confirmed: true },
+        {
+          email: req.params.email,
+        }
+      );
+      res.status(201).send("Usuario confirmado con éxito");
+    } catch (error) {
+      console.error(error);
+    }
+  }
 };
 
 module.exports = UserController;
