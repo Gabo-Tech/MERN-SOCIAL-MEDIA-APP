@@ -2,7 +2,8 @@
 const express = require("express");
 const path = require('path');
 const app = express();
-const PORT = 1620;
+require('dotenv').config();
+const PORT = process.env.PORT || 1620;
 const { dbConnection } = require("./config/config");
 // const getElementsById = require("getelementsbyid");
 
@@ -23,7 +24,7 @@ const getData = () => {
     redirect: 'follow'
     };
 
-    fetch("http://localhost:1620/users/", requestOptions)
+    fetch("https://social-media-api-gabriel.herokuapp.com/users/", requestOptions)
     .then(response => response.text())
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
