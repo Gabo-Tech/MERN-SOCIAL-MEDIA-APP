@@ -5,7 +5,7 @@ const app = express();
 require('dotenv').config();
 const PORT = process.env.PORT || 1620;
 const { dbConnection } = require("./config/config");
-// const getElementsById = require("getelementsbyid");
+//import getElementsById from getelementsbyid;
 
 
 app.use(express.json());
