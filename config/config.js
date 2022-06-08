@@ -21,8 +21,8 @@ const client = new MongoClient(uri);
 async function dbConnection1() {
   try {
     await client.connect();
-    const database = client.db("<dbName>");
-    const ratings = database.collection("<collName>");
+    const database = client.db("socialmedia");
+    const ratings = database.collection("socialmedia");
     const cursor = ratings.find();
     await cursor.forEach(doc => console.dir(doc));
   } finally {
