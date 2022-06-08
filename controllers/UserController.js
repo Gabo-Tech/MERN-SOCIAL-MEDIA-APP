@@ -77,7 +77,7 @@ const UserController = {
           email: req.params.email,
         }
       );
-      res.status(201).send("Usuario confirmado con éxito");
+      res.status(201).send("User confirmed succesfully");
     } catch (error) {
       console.error(error);
     }
