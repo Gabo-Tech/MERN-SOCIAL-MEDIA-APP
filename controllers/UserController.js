@@ -34,13 +34,13 @@ const UserController = {
         email: req.body.email
       });
       const isMatch = await bcrypt.compare(req.body.password, user.password);
-      console.log(JSON.stringify(user.tokens));
-      const token = jwt.sign({ _id: user._id }, jwt_secret); //creo el token
-      if (user.tokens.length > 4) user.tokens.shift();
-      user.tokens.push(token);
-      await user.save();
-
-      res.send({ message: "Hi there " + user.name + "!", token });
+      if(isMatch){
+        const token = jwt.sign({ _id: user._id }, jwt_secret);
+        if (user.tokens.length > 4) user.tokens.shift();
+        user.tokens.push(token);
+        await user.save();
+        res.send({ message: "Hi there " + user.name + "!", token });
+      }
     } catch (error) {
       console.error(error);
     }

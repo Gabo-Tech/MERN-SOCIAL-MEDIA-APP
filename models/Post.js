@@ -10,7 +10,7 @@ const PostSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please fill in the content"],
       },
-    comments: [{ type: ObjectId }],
+    comments: [{ type: ObjectId, ref: "Comment"}],
     likes: [{ type: ObjectId }],
     userId: String,
     image: Buffer

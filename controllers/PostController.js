@@ -131,19 +131,19 @@ const PostController = {
       if (!existPost.likes.includes(req.user._id)){
         const post = await Post.findByIdAndUpdate(
           req.params._id,
-          { $push: { likes: req.user._id } },
+          { $pull: { likes: req.user._id } },
           { new: true }
         );
   
         await User.findByIdAndUpdate(
           req.user._id,
-          { $push: { liked: req.params._id } },
+          { $pull: { liked: req.params._id } },
           { new: true }
         );
         res.send(post);
       }
       else {
-        res.status(400).send({message: 'Crack ya le has dado al like :('})
+        res.status(400).send({message: 'Crack ya le has quitado el like :('})
       }
 
 
