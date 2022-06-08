@@ -12,7 +12,7 @@ const UserController = {
       try {
         const user = await User.create({ ...req.body, role: "user" });
         // const emailToken = jwt.sign({email:req.body.email},jwt_secret,{expiresIn:'24h'});
-        // const url = 'http://localhost:1620/users/confirm/'+emailToken;
+        // const url = 'https://social-media-api-gabriel.herokuapp.com/users/confirm/'+emailToken;
         // await transporter.sendMail({
         //      to:req.body.email,
         //      subject:"Confirmation",
